@@ -28,10 +28,13 @@ titre.pack()
 host = 'localhost'
 port = 8000
 
+alwaysInConv = True
+
 serveurOn = True
 
 txt = ""
 affichage = StringVar()
+
 
 def runServ():
     global txt
@@ -46,9 +49,12 @@ def runServ():
             with connexion:
                 buff = connexion.recv(512)
                 message = buff.decode('utf-8')
-                txt += " " + message
-            serveurOn = False
+                if not message == "aZ72Re32A66EfF45":
+                    txt += " " + message
+            if message == "aZ72Re32A66EfF45":
+                serveurOn = False
             affichage.set(txt)
+            screen.update()
 
 
 def stopServ():

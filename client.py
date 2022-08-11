@@ -30,9 +30,25 @@ def sendMessage():
     txt = ""
 
 
+def endConv():
+    global txt
+    global zoneDeFrappe
+    txt = "aZ72Re32A66EfF45"
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        s.connect((host, port))
+        s.sendall(txt.encode('utf-8'))
+        buff = s.recv(512)
+        print(buff.decode())
+    zoneDeFrappe.delete(0, len(txt))
+    zoneDeFrappe.insert(0, "Conversation is End")
+    txt = ""
+
+
 boutonSend = Button(screen, text="Send", command=sendMessage)
 boutonSend.pack()
 
+boutonEnd = Button(screen, text="End Conversation", command=endConv)
+boutonEnd.pack()
 
 zoneDeFrappe.pack()
 
