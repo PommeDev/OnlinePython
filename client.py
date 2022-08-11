@@ -6,15 +6,16 @@ port = 8000
 
 screen = Tk()
 screen.geometry("500x500")
+screen.title("client1")
 
 zoneDeFrappe = Entry(screen)
-txt = ""
+txt = "client1 + "
 
 
 def getEntry():
     global zoneDeFrappe
     global txt
-    txt = zoneDeFrappe.get()
+    txt += zoneDeFrappe.get()
 
 
 def sendMessage():
@@ -24,10 +25,8 @@ def sendMessage():
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         s.connect((host, port))
         s.sendall(txt.encode('utf-8'))
-        buff = s.recv(512)
-        print(buff.decode())
     zoneDeFrappe.delete(0, len(txt))
-    txt = ""
+    txt = "client1 + "
 
 
 def endConv():
@@ -37,11 +36,10 @@ def endConv():
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         s.connect((host, port))
         s.sendall(txt.encode('utf-8'))
-        buff = s.recv(512)
-        print(buff.decode())
     zoneDeFrappe.delete(0, len(txt))
     zoneDeFrappe.insert(0, "Conversation is End")
-    txt = ""
+    zoneDeFrappe.configure(state="readonly")
+    txt = "client1 + "
 
 
 boutonSend = Button(screen, text="Send", command=sendMessage)

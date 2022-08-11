@@ -21,6 +21,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as serveur:
 
 screen = Tk()
 screen.geometry('500x500')
+screen.title("serveur")
 
 titre = Label(screen, text="Serveur")
 titre.pack()
@@ -32,12 +33,15 @@ alwaysInConv = True
 
 serveurOn = True
 
-txt = ""
-affichage = StringVar()
+txtClient1 = "CLient1 dit : "
+txtClient2 = "CLient2 dit : "
+affichageCLient1 = StringVar()
+affichageCLient2 = StringVar()
 
 
 def runServ():
-    global txt
+    global txtClient1
+    global txtClient2
     global serveurOn
     serveurOn = True
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as serveur:
@@ -49,11 +53,24 @@ def runServ():
             with connexion:
                 buff = connexion.recv(512)
                 message = buff.decode('utf-8')
-                if not message == "aZ72Re32A66EfF45":
-                    txt += " " + message
+                if not message == "aZ72Re32A66EfF45" or not message == "aZ72Re32A66EfF46":
+                    if message[:10] == "client1 + ":
+                        txtClient1 += " " + message[10:]
+                    else:
+                        txtClient2 += " " + message[10:]
+
             if message == "aZ72Re32A66EfF45":
                 serveurOn = False
-            affichage.set(txt)
+                Label(screen, text="Client1 has been leave the conversation").pack()
+
+            elif message == "aZ72Re32A66EfF46":
+                Label(screen, text="Client1 has been leave the conversation").pack()
+
+            if message[:10] == "client1 + ":
+                affichageCLient1.set(txtClient1)
+            else:
+                affichageCLient2.set(txtClient2)
+
             screen.update()
 
 
@@ -62,8 +79,11 @@ def stopServ():
     serveurOn = False
 
 
-affichageLabel = Label(screen, textvariable=affichage)
-affichageLabel.pack()
+affichageLabelClient1 = Label(screen, textvariable=affichageCLient1)
+affichageLabelClient1.pack()
+
+affichageLabelClient2 = Label(screen, textvariable=affichageCLient2)
+affichageLabelClient2.pack()
 
 boutonRun = Button(screen, text='Run', command=runServ)
 boutonRun.pack()

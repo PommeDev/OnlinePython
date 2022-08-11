@@ -1,13 +1,54 @@
-"""Exemple Client"""
-
 import socket
+from tkinter import *
 
 host = 'localhost'
 port = 8000
 
+screen = Tk()
+screen.geometry("500x500")
+screen.title("client2")
 
-with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-    s.connect((host, port))
-    s.sendall("Hello world2".encode('utf-8'))
-    buff = s.recv(512)
-    print(buff.decode())
+zoneDeFrappe = Entry(screen)
+txt = "client2 + "
+
+
+def getEntry():
+    global zoneDeFrappe
+    global txt
+    txt += zoneDeFrappe.get()
+
+
+def sendMessage():
+    global txt
+    global zoneDeFrappe
+    getEntry()
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        s.connect((host, port))
+        s.sendall(txt.encode('utf-8'))
+    zoneDeFrappe.delete(0, len(txt))
+    txt = "client2 + "
+
+
+def endConv():
+    global txt
+    global zoneDeFrappe
+    txt = "aZ72Re32A66EfF46"
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        s.connect((host, port))
+        s.sendall(txt.encode('utf-8'))
+    zoneDeFrappe.delete(0, len(txt))
+    zoneDeFrappe.insert(0, "Conversation is End")
+    zoneDeFrappe.configure(state="readonly")
+    txt = "client2 + "
+
+
+boutonSend = Button(screen, text="Send", command=sendMessage)
+boutonSend.pack()
+
+boutonEnd = Button(screen, text="End Conversation", command=endConv)
+boutonEnd.pack()
+
+zoneDeFrappe.pack()
+
+
+mainloop()
