@@ -64,7 +64,7 @@ def runServ():
                 Label(screen, text="Client1 has been leave the conversation").pack()
 
             elif message == "aZ72Re32A66EfF46":
-                Label(screen, text="Client1 has been leave the conversation").pack()
+                Label(screen, text="Client2 has been leave the conversation").pack()
 
             if message[:10] == "client1 + ":
                 affichageCLient1.set(txtClient1)
