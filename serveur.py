@@ -46,6 +46,7 @@ def runServ():
     global txtClient1
     global txtClient2
     global serveurOn
+    precedentMSG = ""
     serveurOn = True
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as serveur:
         serveur.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -62,6 +63,8 @@ def runServ():
 
                     else:
                         txtClient2 += " " + message[10:]
+                    connexion.sendall(precedentMSG.encode('utf-8'))
+                    precedentMSG = message[10:]
 
             if message == "aZ72Re32A66EfF45":
                 serveurOn = False

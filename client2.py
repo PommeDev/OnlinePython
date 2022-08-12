@@ -25,7 +25,7 @@ def sendMessage():
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         s.connect((host, port))
         s.sendall(txt.encode('utf-8'))
-        print(s.recv(512))
+        print(s.recv(512).decode('utf-8'))
     zoneDeFrappe.delete(0, len(txt))
     txt = "client2 + "
 
