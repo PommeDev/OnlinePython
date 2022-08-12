@@ -1,7 +1,7 @@
 import socket
 from tkinter import *
 
-host = 'localhost'
+host = '192.168.1.94'
 port = 8000
 
 screen = Tk()
@@ -25,6 +25,7 @@ def sendMessage():
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         s.connect((host, port))
         s.sendall(txt.encode('utf-8'))
+        print(s.recv(512))
     zoneDeFrappe.delete(0, len(txt))
     txt = "client2 + "
 

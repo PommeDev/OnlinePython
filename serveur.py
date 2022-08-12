@@ -26,7 +26,7 @@ screen.title("serveur")
 titre = Label(screen, text="Serveur")
 titre.pack()
 
-host = 'localhost'
+host = '192.168.1.94'
 port = 8000
 
 alwaysInConv = True
@@ -37,6 +37,9 @@ txtClient1 = "CLient1 dit : "
 txtClient2 = "CLient2 dit : "
 affichageCLient1 = StringVar()
 affichageCLient2 = StringVar()
+
+affichageCLient1.set(txtClient1)
+affichageCLient2.set(txtClient2)
 
 
 def runServ():
@@ -53,9 +56,10 @@ def runServ():
             with connexion:
                 buff = connexion.recv(512)
                 message = buff.decode('utf-8')
-                if not message == "aZ72Re32A66EfF45" or not message == "aZ72Re32A66EfF46":
+                if not message == "aZ72Re32A66EfF45" and not message == "aZ72Re32A66EfF46":
                     if message[:10] == "client1 + ":
                         txtClient1 += " " + message[10:]
+
                     else:
                         txtClient2 += " " + message[10:]
 
@@ -64,6 +68,7 @@ def runServ():
                 Label(screen, text="Client1 has been leave the conversation").pack()
 
             elif message == "aZ72Re32A66EfF46":
+                serveurOn = False
                 Label(screen, text="Client2 has been leave the conversation").pack()
 
             if message[:10] == "client1 + ":
